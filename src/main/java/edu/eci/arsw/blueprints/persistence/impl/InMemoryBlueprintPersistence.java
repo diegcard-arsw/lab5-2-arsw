@@ -184,4 +184,22 @@ public class InMemoryBlueprintPersistence implements BlueprintsPersistence {
             authorBlueprints.add(blueprint);
         }
     }
+
+    @Override
+    public void deleteBlueprint(String author, String blueprintName) throws BlueprintNotFoundException {
+        Set<Blueprint> authorBlueprints = blueprintsByAuthor.get(author);
+        
+        if (authorBlueprints == null) {
+            throw new BlueprintNotFoundException("No se encontraron planos para el autor: " + author);
+        }
+
+        synchronized (authorBlueprints) {
+            boolean removed = authorBlueprints.removeIf(bp -> bp.getName().equals(blueprintName));
+            
+            if (!removed) {
+                throw new BlueprintNotFoundException(
+                    "No se encontró el plano '" + blueprintName + "' del autor '" + author + "'");
+            }
+        }
+    }
 }

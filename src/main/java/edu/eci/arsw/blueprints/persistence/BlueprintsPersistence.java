@@ -49,4 +49,12 @@ public interface BlueprintsPersistence {
      * @throws BlueprintNotFoundException si no se encuentra el plano a actualizar
      */
     void updateBlueprint(String author, String blueprintName, Blueprint blueprint) throws BlueprintNotFoundException;
+
+    /**
+     * Elimina un plano existente
+     * @param author el autor del plano
+     * @param blueprintName el nombre del plano
+     * @throws BlueprintNotFoundException si no se encuentra el plano a eliminar
+     */
+    void deleteBlueprint(String author, String blueprintName) throws BlueprintNotFoundException;
 }

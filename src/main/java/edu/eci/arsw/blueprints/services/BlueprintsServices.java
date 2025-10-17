@@ -79,4 +79,14 @@ public class BlueprintsServices {
     public void updateBlueprint(String author, String blueprintName, Blueprint blueprint) throws BlueprintNotFoundException {
         blueprintsPersistence.updateBlueprint(author, blueprintName, blueprint);
     }
+
+    /**
+     * Elimina un plano existente
+     * @param author el autor del plano
+     * @param blueprintName el nombre del plano
+     * @throws BlueprintNotFoundException si no se encuentra el plano a eliminar
+     */
+    public void deleteBlueprint(String author, String blueprintName) throws BlueprintNotFoundException {
+        blueprintsPersistence.deleteBlueprint(author, blueprintName);
+    }
 }

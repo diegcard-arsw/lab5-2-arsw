@@ -77,6 +77,39 @@
                     </tbody>
                 </table>
             </div>
+
+            <!-- Botones de administración de planos -->
+            <div id="blueprint-actions" class="panel panel-default" style="display: none; margin-top: 20px;">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="glyphicon glyphicon-wrench"></span> Administración de Planos</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <button id="create-blueprint" class="btn btn-success btn-block">
+                                <span class="glyphicon glyphicon-plus"></span> Create new blueprint
+                            </button>
+                        </div>
+                        <div class="col-md-4">
+                            <button id="save-blueprint" class="btn btn-primary btn-block" disabled>
+                                <span class="glyphicon glyphicon-floppy-disk"></span> Save/Update
+                            </button>
+                        </div>
+                        <div class="col-md-4">
+                            <button id="delete-blueprint" class="btn btn-danger btn-block" disabled>
+                                <span class="glyphicon glyphicon-trash"></span> DELETE
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 10px;">
+                        <div class="col-md-12">
+                            <div id="current-blueprint-info" class="alert alert-info" style="display: none;">
+                                <strong>Plano actual:</strong> <span id="current-blueprint-name"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             
             <div id="total-points" class="total-points" style="display: none;"></div>
         </div>

@@ -116,4 +116,22 @@ public class BlueprintAPIController {
             return new ResponseEntity<>("Error interno del servidor", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    /**
+     * DELETE /blueprints/{author}/{bpname}
+     * Elimina un plano existente
+     */
+    @RequestMapping(value = "/{author}/{bpname}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteBlueprint(@PathVariable String author, @PathVariable String bpname) {
+        try {
+            blueprintsServices.deleteBlueprint(author, bpname);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (BlueprintNotFoundException ex) {
+            Logger.getLogger(BlueprintAPIController.class.getName()).log(Level.INFO, null, ex);
+            return new ResponseEntity<>("No se encontró el plano '" + bpname + "' del autor '" + author + "'", HttpStatus.NOT_FOUND);
+        } catch (Exception ex) {
+            Logger.getLogger(BlueprintAPIController.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>("Error interno del servidor", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
