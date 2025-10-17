@@ -1,0 +1,83 @@
+# ANÁLISIS DE CONCURRENCIA
+
+## Condiciones de carrera identificadas:
+
+### 1. **Colección no Thread-Safe**
+**Problema:** La implementación original de `InMemoryBlueprintPersistence` usaba `HashMap` y `HashSet` que no son thread-safe.
+**Solución:** Se cambió a `ConcurrentHashMap` y `ConcurrentHashMap.newKeySet()` para las colecciones.
+
+### 2. **Operación de consulta y agregación no atómica**
+**Problema:** En el método `saveBlueprint()`, la verificación de existencia y posterior agregación no se realizaban de forma atómica:
+```java
+// CÓDIGO PROBLEMÁTICO (NO IMPLEMENTADO)
+if (existe(plano)) {
+    // Aquí otro hilo podría agregar el mismo plano
+    throw new Exception("Ya existe");
+}
+agregarPlano(plano); // Condición de carrera
+```
+
+**Solución:** Se usó `computeIfAbsent()` junto con `synchronized` para operaciones atómicas:
+```java
+Set<Blueprint> authorBlueprints = blueprintsByAuthor.computeIfAbsent(author, k -> ConcurrentHashMap.newKeySet());
+
+synchronized (authorBlueprints) {
+    boolean exists = authorBlueprints.stream()
+        .anyMatch(blueprint -> blueprint.getName().equals(name));
+    
+    if (exists) {
+        throw new BlueprintPersistenceException("Ya existe un plano con el nombre '" + name + "'");
+    }
+    
+    authorBlueprints.add(bp);
+}
+```
+
+### 3. **Actualización de planos no atómica**
+**Problema:** La operación de actualizar un plano (eliminar el viejo y agregar el nuevo) no era atómica.
+**Solución:** Se sincronizó todo el bloque de actualización para garantizar atomicidad.
+
+## Regiones críticas identificadas:
+
+### 1. **Método `saveBlueprint()`**
+- **Región crítica:** Verificación de existencia + agregación del plano
+- **Protección:** Sincronización en el conjunto específico del autor
+
+### 2. **Método `updateBlueprint()`**
+- **Región crítica:** Búsqueda + eliminación + agregación del plano actualizado
+- **Protección:** Sincronización en el conjunto específico del autor
+
+### 3. **Acceso concurrente a colecciones**
+- **Región crítica:** Todas las operaciones sobre las colecciones de planos
+- **Protección:** Uso de colecciones thread-safe (`ConcurrentHashMap`)
+
+## Estrategias de optimización aplicadas:
+
+### 1. **Granularidad fina de sincronización**
+En lugar de sincronizar métodos completos, se sincroniza solo a nivel del conjunto de planos de cada autor, permitiendo operaciones concurrentes en diferentes autores.
+
+### 2. **Colecciones thread-safe**
+Uso de `ConcurrentHashMap` que permite lecturas concurrentes sin bloqueo y escrituras con bloqueo mínimo.
+
+### 3. **Operaciones atómicas**
+Uso de métodos como `computeIfAbsent()` que garantizan atomicidad en operaciones complejas.
+
+### 4. **Copias defensivas**
+En `getBlueprintsByAuthor()` se retorna una copia (`new HashSet<>()`) para evitar modificaciones externas a las colecciones internas.
+
+## Consideraciones de rendimiento:
+
+1. **Lecturas concurrentes:** Las operaciones de lectura (`get`, `getBlueprintsByAuthor`) no se bloquean entre sí gracias a `ConcurrentHashMap`.
+
+2. **Escrituras por autor independientes:** Dos hilos pueden agregar planos de diferentes autores simultáneamente sin interferencia.
+
+3. **Bloqueo mínimo:** Solo se bloquea cuando se necesita modificar el conjunto de planos de un autor específico.
+
+4. **Escalabilidad:** El sistema puede manejar múltiples peticiones simultáneas con degradación mínima del rendimiento.
+
+## Verificación de corrección:
+
+✅ **Thread-Safety:** Todas las operaciones son seguras en entornos multihilo
+✅ **Atomicidad:** Las operaciones críticas son atómicas
+✅ **Consistencia:** El estado del sistema siempre es consistente
+✅ **Performance:** Impacto mínimo en el rendimiento comparado con sincronización global

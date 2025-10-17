@@ -1,0 +1,11 @@
+C:\Users\diego\Desktop\lab5-arsw\src\main\java\edu\eci\arsw\blueprints\BlueprintsAPIApplication.java
+C:\Users\diego\Desktop\lab5-arsw\src\main\java\edu\eci\arsw\blueprints\persistence\BlueprintsPersistence.java
+C:\Users\diego\Desktop\lab5-arsw\src\main\java\edu\eci\arsw\blueprints\controllers\BlueprintAPIController.java
+C:\Users\diego\Desktop\lab5-arsw\src\main\java\edu\eci\arsw\blueprints\exceptions\BlueprintPersistenceException.java
+C:\Users\diego\Desktop\lab5-arsw\src\main\java\edu\eci\arsw\blueprints\services\BlueprintsServices.java
+C:\Users\diego\Desktop\lab5-arsw\src\main\java\edu\eci\arsw\blueprints\model\Point.java
+C:\Users\diego\Desktop\lab5-arsw\src\main\java\edu\eci\arsw\blueprints\persistence\impl\InMemoryBlueprintPersistence.java
+C:\Users\diego\Desktop\lab5-arsw\src\main\java\edu\eci\arsw\blueprints\exceptions\BlueprintNotFoundException.java
+C:\Users\diego\Desktop\lab5-arsw\src\main\java\edu\eci\arsw\blueprints\model\Blueprint.java
+C:\Users\diego\Desktop\lab5-arsw\src\main\java\edu\eci\arsw\blueprints\filters\BlueprintFilter.java
+C:\Users\diego\Desktop\lab5-arsw\src\main\java\edu\eci\arsw\blueprints\filters\RedundancyFilter.java
