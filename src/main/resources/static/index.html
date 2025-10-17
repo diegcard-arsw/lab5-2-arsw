@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Blueprints</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
+</head>
+<body>
+    <div class="container">
+        <h1>Blueprints</h1>
+        <div class="form-group">
+            <label for="author-input">Autor:</label>
+            <input type="text" id="author-input" class="form-control" placeholder="Ingrese el nombre del autor">
+        </div>
+        <button id="get-blueprints" class="btn btn-primary">Get blueprints</button>
+        <div id="author-name" class="mt-3"></div>
+        <table id="blueprints-table" class="table table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Número de puntos</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Filas de planos aquí -->
+            </tbody>
+        </table>
+        <div id="total-points" class="mt-3"></div>
+    </div>
+    <script src="js/apimock.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
